@@ -1,4 +1,4 @@
-package main
+package db
 
 import (
 	"database/sql"
@@ -9,7 +9,7 @@ import (
 	_ "github.com/tursodatabase/libsql-client-go/libsql"
 )
 
-func main() {
+func ConnectDb() {
 
 	tursoUrl := os.Getenv("TURSO_SQL_URL")
 	if tursoUrl == "" {
