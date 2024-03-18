@@ -14,7 +14,7 @@ func CallMistralAPI(message, apiKey string) (*models.SystemChat, error) {
 
 	// Construct the request body
 	requestBody := map[string]interface{}{
-		"model": "mistral-small-2402",
+		"model": "open-mixtral-8x7b",
 		"messages": []map[string]string{
 			{
 				"role":    "user",
