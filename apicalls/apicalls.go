@@ -4,12 +4,26 @@ import (
 	"bytes"
 	"encoding/json"
 	"io"
+	"log"
 	"milio/models"
+	"os"
 
 	"net/http"
+
+	"github.com/joho/godotenv"
 )
 
-func CallMistralAPI(message, apiKey string) (*models.SystemChat, error) {
+func CallMistralAPI(message string) (*models.SystemChat, error) {
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	apiKey := os.Getenv("MIXTRAL_API_KEY")
+	if apiKey == "" {
+		log.Fatal("API key not set in .env file")
+	}
+
 	url := "https://api.mistral.ai/v1/chat/completions" // Mistral API URL
 
 	// Construct the request body
@@ -21,7 +35,7 @@ func CallMistralAPI(message, apiKey string) (*models.SystemChat, error) {
 				"content": message,
 			},
 		},
-		"temperature": 0.7,
+		"temperature": 0.2,
 		"top_p":       1,
 		"max_tokens":  512,
 		"stream":      false,
