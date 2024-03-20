@@ -4,7 +4,7 @@ func SoftwareCall(message string) string {
 	req := SoftwarePrompt + message
 	output := "I can't help you with that, sorry!"
 
-	res, err := CallMistralAPI(req)
+	res, err := CallMistralAPI(req, 5)
 	if err != nil {
 		output = "I can't help you with that now, please try later."
 	}
@@ -16,31 +16,31 @@ func SoftwareCall(message string) string {
 		output := openApp(message)
 		return output
 	case "02":
-		output := closeApp()
+		output := closeApp(message)
 		return output
 	case "03":
-		output := openFile()
+		output := openFile(message)
 		return output
 	case "04":
-		output := closeFile()
+		output := closeFile(message)
 		return output
 	case "05":
-		output := createFile()
+		output := createFile(message)
 		return output
 	case "06":
-		output := renameFile()
+		output := renameFile(message)
 		return output
 	case "07":
-		output := createFolder()
+		output := deleteFile(message)
 		return output
 	case "08":
-		output := renameFolder()
+		output := createFolder(message)
 		return output
 	case "09":
-		output := deleteFile()
+		output := renameFolder(message)
 		return output
 	case "10":
-		output := deleteFolder()
+		output := deleteFolder(message)
 		return output
 	case "11":
 		output := takeScreenshot()

@@ -13,7 +13,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func CallMistralAPI(message string) (*models.SystemChat, error) {
+func CallMistralAPI(message string, maxToken int) (*models.SystemChat, error) {
 
 	err := godotenv.Load()
 	if err != nil {
@@ -37,7 +37,7 @@ func CallMistralAPI(message string) (*models.SystemChat, error) {
 		},
 		"temperature": 0.2,
 		"top_p":       1,
-		"max_tokens":  512,
+		"max_tokens":  maxToken,
 		"stream":      false,
 		"safe_prompt": false,
 		"random_seed": 1337,
