@@ -1,6 +1,7 @@
 package main
 
 import (
+	"milio/db"
 	"milio/routes"
 
 	"github.com/gin-gonic/gin"
@@ -8,6 +9,9 @@ import (
 
 func main() {
 	server := gin.Default()
+
+	db.AddErrorTable()
+	db.AddUsersTable()
 
 	routes.GenerateRoutes(server)
 

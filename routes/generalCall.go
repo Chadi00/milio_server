@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"fmt"
 	"milio/apicalls"
+	"milio/db"
 	"milio/models"
 	"net/http"
 
@@ -29,7 +29,7 @@ func generalCall(context *gin.Context) {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = res.Choices[0].Message.Content
 	} else {
-		fmt.Print("failed in generalCall")
+		db.AddError(userChat.Message, answer, "M_API_limit", "MacOS")
 		context.JSON(http.StatusInternalServerError, gin.H{"System message": "error, try again later"})
 		return
 	}
@@ -65,5 +65,5 @@ func generalCall(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"System message": answer})
+	context.JSON(http.StatusBadRequest, gin.H{"System message": answer})
 }
