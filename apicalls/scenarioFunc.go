@@ -9,7 +9,14 @@ func SoftwareCall(message string) string {
 		output = "I can't help you with that now, please try later."
 	}
 
-	answer := res.Choices[0].Message.Content
+	answer := output
+
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = res.Choices[0].Message.Content
+	} else {
+		output = "No choices returned from the API."
+		return output
+	}
 
 	switch answer[0:2] {
 	case "01":

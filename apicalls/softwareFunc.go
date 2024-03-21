@@ -12,7 +12,13 @@ func openApp(message string) string {
 		return "something happened, try again later"
 	}
 
-	answer := strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	answer := []string{"0"}
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	} else {
+		return "0"
+	}
+
 	answer = strings.SplitN(answer[0], ".", 2)
 	return "001" + answer[0]
 }
@@ -25,7 +31,13 @@ func closeApp(message string) string {
 		return "something happened, try again later"
 	}
 
-	answer := strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	answer := []string{"0"}
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	} else {
+		return "0"
+	}
+
 	answer = strings.SplitN(answer[0], ".", 2)
 	return "002" + answer[0]
 }
@@ -38,7 +50,13 @@ func openFile(message string) string {
 		return "something happened, try again later"
 	}
 
-	answer := strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	answer := []string{"0"}
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	} else {
+		return "0"
+	}
+
 	answer = strings.SplitN(answer[0], ".", 2)
 	return "003" + answer[0]
 }
@@ -51,7 +69,13 @@ func closeFile(message string) string {
 		return "something happened, try again later"
 	}
 
-	answer := strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	answer := []string{"0"}
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	} else {
+		return "0"
+	}
+
 	answer = strings.SplitN(answer[0], ".", 2)
 	return "004" + answer[0]
 }
@@ -64,7 +88,13 @@ func createFile(message string) string {
 		return "something happened, try again later"
 	}
 
-	answer := strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	answer := []string{"0"}
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	} else {
+		return "0"
+	}
+
 	answer = strings.SplitN(answer[0], ".", 2)
 	return "005" + answer[0]
 }
@@ -77,7 +107,13 @@ func renameFile(message string) string {
 		return "something happened, try again later"
 	}
 
-	answer := strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	answer := []string{"0"}
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	} else {
+		return "0"
+	}
+
 	answer = strings.SplitN(answer[0], ".", 2)
 	return "006" + answer[0]
 }
@@ -90,7 +126,13 @@ func deleteFile(message string) string {
 		return "something happened, try again later"
 	}
 
-	answer := strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	answer := []string{"0"}
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	} else {
+		return "0"
+	}
+
 	answer = strings.SplitN(answer[0], ".", 2)
 	return "007" + answer[0]
 }
@@ -103,7 +145,13 @@ func createFolder(message string) string {
 		return "something happened, try again later"
 	}
 
-	answer := strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	answer := []string{"0"}
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	} else {
+		return "0"
+	}
+
 	answer = strings.SplitN(answer[0], ".", 2)
 	return "008" + answer[0]
 }
@@ -116,7 +164,13 @@ func renameFolder(message string) string {
 		return "something happened, try again later"
 	}
 
-	answer := strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	answer := []string{"0"}
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	} else {
+		return "0"
+	}
+
 	answer = strings.SplitN(answer[0], ".", 2)
 	return "009" + answer[0]
 }
@@ -129,7 +183,13 @@ func deleteFolder(message string) string {
 		return "something happened, try again later"
 	}
 
-	answer := strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	answer := []string{"0"}
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	} else {
+		return "0"
+	}
+
 	answer = strings.SplitN(answer[0], ".", 2)
 	return "010" + answer[0]
 }

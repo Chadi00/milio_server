@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"milio/apicalls"
 	"milio/models"
 	"net/http"
@@ -24,8 +25,14 @@ func generalCall(context *gin.Context) {
 		context.JSON(http.StatusOK, gin.H{"message": "Can't get response from mistral"})
 	}
 
-	answer := res.Choices[0].Message.Content
-	output := "Sorry, I can't help you with this."
+	answer := "0"
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = res.Choices[0].Message.Content
+	} else {
+		fmt.Print("failed in generalCall")
+		context.JSON(http.StatusInternalServerError, gin.H{"System message": "error, try again later"})
+		return
+	}
 
 	switch answer[0] {
 	case '1':
@@ -58,5 +65,5 @@ func generalCall(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"System message": output})
+	context.JSON(http.StatusOK, gin.H{"System message": answer})
 }
