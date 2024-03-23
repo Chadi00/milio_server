@@ -3,6 +3,7 @@ package main
 import (
 	"milio/db"
 	"milio/routes"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,5 +16,10 @@ func main() {
 
 	routes.GenerateRoutes(server)
 
-	server.Run(":8080") //localhost:8080
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	server.Run(":" + port)
 }
