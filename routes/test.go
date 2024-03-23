@@ -2,6 +2,7 @@ package routes
 
 import (
 	"milio/apicalls"
+	"milio/db"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,4 +18,13 @@ func test(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusBadRequest, gin.H{"System message": res})
+}
+
+func test2(context *gin.Context) {
+	res, err := db.ReadAllErrorsAsString()
+	if err != nil {
+		context.JSON(http.StatusOK, gin.H{"message": "error with readAllErrorsAsString"})
+	}
+
+	context.JSON(http.StatusOK, gin.H{"errors": res})
 }
