@@ -17,7 +17,7 @@ func test(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusBadRequest, gin.H{"System message": res})
+	context.JSON(http.StatusOK, gin.H{"System message": res})
 }
 
 func test2(context *gin.Context) {
