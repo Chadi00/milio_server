@@ -21,5 +21,5 @@ func main() {
 		port = "8080"
 	}
 
-	server.Run(":" + port)
+	server.Run("0.0.0.0:" + port)
 }
