@@ -16,11 +16,11 @@ func ConnectDb() (*sql.DB, error) {
 
 	tursoUrl := os.Getenv("TURSO_SQL_URL")
 	if tursoUrl == "" {
-		log.Fatal("Turso URL not set in .env file")
+		log.Fatal("Turso URL not set as env variable")
 	}
 	tursoAuthToken := os.Getenv("TURSO_SQL_AUTH_TOKEN")
 	if tursoAuthToken == "" {
-		log.Fatal("Turso Auth Token not set in .env file")
+		log.Fatal("Turso Auth Token not set as env variable")
 	}
 
 	url := tursoUrl + "?authToken=" + tursoAuthToken

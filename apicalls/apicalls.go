@@ -21,7 +21,7 @@ func CallMistralAPI(message string, maxToken int) (*models.SystemChat, error) {
 	}
 	apiKey := os.Getenv("MIXTRAL_API_KEY")
 	if apiKey == "" {
-		log.Fatal("API key not set in .env file")
+		log.Fatal("API key for Mistral not set as env variable")
 	}
 
 	url := "https://api.mistral.ai/v1/chat/completions" // Mistral API URL
