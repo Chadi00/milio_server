@@ -4,7 +4,7 @@ func SoftwareCall(message string) string {
 	req := SoftwarePrompt + message
 	output := "I can't help you with that, sorry!"
 
-	res, err := CallMistralAPI(req, 5)
+	res, err := CallOpenAIAPI(req, 5)
 	if err != nil {
 		output = "I can't help you with that now, please try later."
 	}

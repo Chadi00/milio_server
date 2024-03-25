@@ -20,7 +20,7 @@ func generalCall(context *gin.Context) {
 
 	message := apicalls.GeneralPrompt + userChat.Message
 
-	res, err := apicalls.CallMistralAPI(message, 5)
+	res, err := apicalls.CallOpenAIAPI(message, 5)
 	if err != nil {
 		context.JSON(http.StatusOK, gin.H{"message": "Can't get response from mistral"})
 	}
@@ -30,7 +30,7 @@ func generalCall(context *gin.Context) {
 		answer = res.Choices[0].Message.Content
 	} else {
 		db.AddError(userChat.Message, answer, "M_API_limit", "MacOS")
-		context.JSON(http.StatusInternalServerError, gin.H{"System message": "error, try again later"})
+		context.JSON(http.StatusInternalServerError, gin.H{"sorry, try again later.": res})
 		return
 	}
 
