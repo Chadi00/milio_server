@@ -59,25 +59,19 @@ func SoftwareCall(message string) string {
 		output := PauseMusic()
 		return output
 	case "14":
-		output := OpenURL()
+		output := OpenURL(message)
 		return output
 	case "15":
-		output := sendEmail()
+		output := sendEmail(message)
 		return output
 	case "16":
-		output := readPDF()
+		output := readPDF(message)
 		return output
 	case "17":
-		output := setTimer()
+		output := setTimer(message)
 		return output
 	case "18":
-		output := setAlert()
-		return output
-	case "19":
 		output := startChrono()
-		return output
-	case "20":
-		output := textToSpeachClipboard()
 		return output
 	}
 

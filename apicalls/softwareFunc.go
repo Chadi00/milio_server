@@ -221,30 +221,67 @@ func PauseMusic() string {
 	return "013"
 }
 
-func OpenURL() string {
-	return "open url"
+func OpenURL(message string) string {
+	message = "Read the user's request carefully, where they seek assistance with opening an url on a brower. Your objective is to discern one key pieces of information from their input: the url they want to open. You must then return the url. The format for your response should strictly adhere to 'url'. For instance, if the task is to open youtube, your response should be 'https://www.youtube.com/'. Ensure that your response includes only the url in the specified format or '0'. The response '0' should be given if the user's request lacks sufficient details for you to confidently extract the url. It is essential to provide a singular, accurate response based on the user's initial request alone. Do not attempt to offer multiple solutions, additional explanations, or ask for further clarification. Your answer must either be the precise folder name and new name in the requested format or '0', directly addressing what the user has asked for. \nUser request:" + message
+
+	res, err := CallOpenAIAPI(message, 10)
+	if err != nil {
+		return "something happened, try again later"
+	}
+
+	answer := []string{"0"}
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	} else {
+		return "0"
+	}
+
+	return "014" + answer[0]
 }
 
-func sendEmail() string {
-	return "send email"
+func sendEmail(message string) string {
+	message = "Read the user's request carefully, where they seek assistance with sending an email. Your objective is to discern three key pieces of information from their input: the name or email of the recipient, the object of the email and the content of the email. You must then formulate your response by concatenating the name or email of the recipient, the object of the email and the content of the email, each separated by an asterisk. The format for your response should strictly adhere to 'recipientName*objectOfEmail*emailContent'. For instance, if the task is to send an email to chadi@icloud.com to invite him to a zoom call today at 3pm, your response should be 'chadi@icloud.com*zoom call*Hi,\nHope you're doing well! Let's have a Zoom meeting today at 3 PM to quickly go over some important points.\nBest,\nyour name.'. Ensure that your response includes only the concatenated string in the specified format or '0'. The response '0' should be given if the user's request lacks sufficient details for you to confidently extract the name or email of the recipient, the object and the content of the email. It is essential to provide a singular, accurate response based on the user's initial request alone. Do not attempt to offer multiple solutions, additional explanations, or ask for further clarification. Your answer must either be the precise folder name and new name in the requested format or '0', directly addressing what the user has asked for. \nUser request:" + message
+
+	res, err := CallOpenAIAPI(message, 500)
+	if err != nil {
+		return "something happened, try again later"
+	}
+
+	answer := res.Choices[0].Message.Content
+	return "015" + answer
 }
 
-func readPDF() string {
-	return "read pdf"
+func readPDF(message string) string {
+	message = "Read the user's request carefully, where they seek assistance with a PDF. Answer to their request regarding the content of the PDF (explaining the content, summurizing the content, giving more insight on the PDF content). Ensure that your response includes only the answer to the request or '0'. The response '0' should be given if the user's request lacks sufficient details or explanation for you to confidently answer it. It is essential to provide a singular, accurate response based on the user's initial request alone. Do not attempt to offer multiple solutions, additional explanations, or ask for further clarification. Your answer must either be the precise folder name and new name in the requested format or '0', directly addressing what the user has asked for. \n" + message
+
+	res, err := CallOpenAIAPI(message, 500)
+	if err != nil {
+		return "something happened, try again later"
+	}
+
+	answer := res.Choices[0].Message.Content
+	return "016" + answer
 }
 
-func setTimer() string {
-	return "set timer"
-}
+func setTimer(message string) string {
+	message = "Read the user's request carefully, where they seek assistance with seting a timer. Your objective is to discern one key piece of information from their input: the number of seconds of the timer (30sec). You must then formulate your response by answering with the number of seconds. The format for your response should strictly adhere to 'numberOfSecondes'. For instance, if the task is to set a 2 minutes timer, your response should be '120' and if the task is to set a 10 seconds timer, your response should be '10'. If the requested time is less that 1 second answer with '1'. Ensure that your response includes only the number of seconds in the specified format or '0'. The response '0' should be given if the user's request lacks sufficient details for you to confidently extract the number of seconds. It is essential to provide a singular, accurate response based on the user's initial request alone. Do not attempt to offer multiple solutions, additional explanations, or ask for further clarification. Your answer must either be the precise number of seconds or '0', directly addressing what the user has asked for. \nUser request:" + message
 
-func setAlert() string {
-	return "set alarm"
+	res, err := CallOpenAIAPI(message, 10)
+	if err != nil {
+		return "something happened, try again later"
+	}
+
+	answer := []string{"0"}
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	} else {
+		return "0"
+	}
+
+	answer = strings.SplitN(answer[0], ".", 2)
+	return "017" + answer[0]
 }
 
 func startChrono() string {
-	return "start chrono"
-}
-
-func textToSpeachClipboard() string {
-	return "text to speach clipboard"
+	return "018"
 }

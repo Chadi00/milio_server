@@ -65,5 +65,5 @@ func generalCall(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusBadRequest, gin.H{"System message": answer})
+	context.JSON(http.StatusBadRequest, gin.H{"System messages": answer})
 }
