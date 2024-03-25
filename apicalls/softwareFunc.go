@@ -198,8 +198,23 @@ func takeScreenshot() string {
 	return "011"
 }
 
-func playMusic() string {
-	return "play music"
+func playMusic(message string) string {
+	message = "Read the user's request carefully, where they seek assistance with playing music. Your objective is to discern three key pieces of information from their input: the name of the music they want to play, the name of the playlist and the name of the music application (spotify or apple music). You must then formulate your response by concatenating the name of the music, the name of the playlist and the name of the music app, each separated by a dash. The format for your response should strictly adhere to 'nameOfMusic-nameOfPlayslist-musicApp'. For instance, if the task is to play 'hello' from playlist 'today' on 'Spotify', your response should be 'hello-today-spotify'. Ensure that your response includes only the concatenated string in the specified format or '0'. The response '0' should be given if the user's request lacks sufficient details for you to confidently extract the name of the music, the name of the playlist and name of the music app. It is essential to provide a singular, accurate response based on the user's initial request alone. Do not attempt to offer multiple solutions, additional explanations, or ask for further clarification. Your answer must either be the precise folder name and new name in the requested format or '0', directly addressing what the user has asked for. \nUser request:" + message
+
+	res, err := CallMistralAPI(message, 10)
+	if err != nil {
+		return "something happened, try again later"
+	}
+
+	answer := []string{"0"}
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
+	} else {
+		return "0"
+	}
+
+	answer = strings.SplitN(answer[0], ".", 2)
+	return "012" + answer[0]
 }
 
 func PauseMusic() string {
