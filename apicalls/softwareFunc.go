@@ -6,7 +6,7 @@ import (
 )
 
 func openApp(message string) string {
-	message = "Read the user's request below, which asks for assistance with an application. Your task is to identify the name of the application they are referring to, based solely on the provided input. Respond with the name of the application if it can be clearly identified from the request. If the request does not contain enough information to determine the application's name confidently, respond with '0'. It is crucial that you provide a single response based on the user's current request, without offering additional examples, further explanations, or multiple attempts. Your response must consist of only the application's name or '0', directly addressing the user's request. \n User request" + message
+	message = "Read the user's request below, which asks for assistance with an application. Your task is to identify the name of the application they are referring to, based solely on the provided input. Respond with the name of the application if it can be clearly identified from the request. If the request does not contain enough information to determine the application's name confidently, respond with '0'. For example is the user wants to open discord repond with 'discord'. It is crucial that you provide a single response based on the user's current request, without offering additional examples, further explanations, or multiple attempts. Your response must consist of only the application's name or '0', directly addressing the user's request. \n User request" + message
 
 	res, err := CallOpenAIAPI(message, 10)
 	if err != nil {
@@ -25,7 +25,7 @@ func openApp(message string) string {
 }
 
 func closeApp(message string) string {
-	message = "Read the user's request below, which asks for assistance with an application. Your task is to identify the name of the application they are referring to, based solely on the provided input. Respond with the name of the application if it can be clearly identified from the request. If the request does not contain enough information to determine the application's name confidently, respond with '0'. It is crucial that you provide a single response based on the user's current request, without offering additional examples, further explanations, or multiple attempts. Your response must consist of only the application's name or '0', directly addressing the user's request. \n User request" + message
+	message = "Read the user's request below, which asks for assistance with an application. Your task is to identify the name of the application they are referring to, based solely on the provided input. Respond with the name of the application if it can be clearly identified from the request. If the request does not contain enough information to determine the application's name confidently, respond with '0'. For example is the user wants to close discord repond with 'discord'. It is crucial that you provide a single response based on the user's current request, without offering additional examples, further explanations, or multiple attempts. Your response must consist of only the application's name or '0', directly addressing the user's request. \n User request" + message
 
 	res, err := CallOpenAIAPI(message, 10)
 	if err != nil {
@@ -44,7 +44,7 @@ func closeApp(message string) string {
 }
 
 func openFile(message string) string {
-	message = "Read the user's request below, which asks for assistance with opening a file. Your task is to identify the name of the file and its type (e.g., txt, mp4, cvs) based solely on the provided input. Respond with the name of the file and its type, separated by a dash, like 'filename-txt' or 'videoname-mp4'. If the request does not contain enough information to confidently determine both the name of the file and its type, respond with '0'. It is crucial that you provide a single response based on the user's current request, without offering additional examples, further explanations, or multiple attempts. Your response must consist of only the file name and type in the specified format or '0', directly addressing the user's request. \n User request" + message
+	message = "Read the user's request below, which asks for assistance with opening a file. Your task is to identify the name of the file and its type (e.g., txt, mp4, csv) based solely on the provided input. Respond with the name of the file and its type, separated by a dash, like 'filename-txt' or 'videoname-mp4'. If the request does not contain enough information to confidently determine both the name of the file and its type, respond with '0'. It is crucial that you provide a single response based on the user's current request, without offering additional examples, further explanations, or multiple attempts. Your response must consist of only the file name and type in the specified format or '0', directly addressing the user's request. \n User request" + message
 
 	res, err := CallOpenAIAPI(message, 10)
 	if err != nil {
@@ -243,7 +243,7 @@ func OpenURL(message string) string {
 func sendEmail(message string) string {
 	message = "Read the user's request carefully, where they seek assistance with sending an email. Your objective is to discern three key pieces of information from their input: the name or email of the recipient, the object of the email and the content of the email. You must then formulate your response by concatenating the name or email of the recipient, the object of the email and the content of the email, each separated by an asterisk. The format for your response should strictly adhere to 'recipientName*objectOfEmail*emailContent'. For instance, if the task is to send an email to chadi@icloud.com to invite him to a zoom call today at 3pm, your response should be 'chadi@icloud.com*zoom call*Hi,\nHope you're doing well! Let's have a Zoom meeting today at 3 PM to quickly go over some important points.\nBest,\nyour name.'. Ensure that your response includes only the concatenated string in the specified format or '0'. The response '0' should be given if the user's request lacks sufficient details for you to confidently extract the name or email of the recipient, the object and the content of the email. It is essential to provide a singular, accurate response based on the user's initial request alone. Do not attempt to offer multiple solutions, additional explanations, or ask for further clarification. Your answer must either be the precise folder name and new name in the requested format or '0', directly addressing what the user has asked for. \nUser request:" + message
 
-	res, err := CallOpenAIAPI(message, 500)
+	res, err := CallOpenAIAPI(message, 1000)
 	if err != nil {
 		return "something happened, try again later"
 	}
@@ -260,8 +260,13 @@ func sendEmail(message string) string {
 func readPDF(message string) string {
 	message = "Read the user's request carefully, where they seek assistance with a PDF. Answer to their request regarding the content of the PDF (explaining the content, summurizing the content, giving more insight on the PDF content). Ensure that your response includes only the answer to the request or '0'. The response '0' should be given if the user's request lacks sufficient details or explanation for you to confidently answer it. It is essential to provide a singular, accurate response based on the user's initial request alone. Do not attempt to offer multiple solutions, additional explanations, or ask for further clarification. Your answer must either be the precise folder name and new name in the requested format or '0', directly addressing what the user has asked for. \n" + message
 
-	res, err := CallOpenAIAPI(message, 500)
+	res, err := CallOpenAIAPI(message, 1000)
 	if err != nil {
+		return "something happened, try again later"
+	}
+
+	if len(res.Choices) == 0 {
+		log.Println("res.Choices len == 0")
 		return "something happened, try again later"
 	}
 

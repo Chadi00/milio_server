@@ -79,7 +79,43 @@ func SoftwareCall(message string) string {
 }
 
 func HardwareCall(message string) string {
-	return "Hardware"
+	req := HardwarePrompt + message
+	output := "I can't help you with that, sorry!"
+
+	res, err := CallOpenAIAPI(req, 5)
+	if err != nil {
+		output = "I can't help you with that now, please try later."
+	}
+
+	answer := output
+
+	if res.Choices != nil && len(res.Choices) > 0 {
+		answer = res.Choices[0].Message.Content
+	} else {
+		output = "No choices returned from the API."
+		return output
+	}
+
+	switch answer[0:2] {
+	case "01":
+		output := volumeUp(message)
+		return output
+	case "02":
+		output := volumeDown(message)
+		return output
+	case "03":
+		return "103"
+	case "04":
+		return "104"
+	case "05":
+		return "105"
+	case "06":
+		return "106"
+	case "07":
+		return "107"
+	}
+
+	return output + " " + answer
 }
 
 func DomoCall(message string) string {
