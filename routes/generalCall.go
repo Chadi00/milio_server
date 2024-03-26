@@ -29,7 +29,7 @@ func generalCall(context *gin.Context) {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = res.Choices[0].Message.Content
 	} else {
-		db.AddError(userChat.Message, answer, "M_API_limit", "MacOS")
+		db.AddError(userChat.Message, answer, "API_limit", "MacOS")
 		context.JSON(http.StatusInternalServerError, gin.H{"sorry, try again later.": res})
 		return
 	}

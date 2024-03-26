@@ -1,6 +1,7 @@
 package apicalls
 
 import (
+	"log"
 	"strings"
 )
 
@@ -244,6 +245,11 @@ func sendEmail(message string) string {
 
 	res, err := CallOpenAIAPI(message, 500)
 	if err != nil {
+		return "something happened, try again later"
+	}
+
+	if len(res.Choices) == 0 {
+		log.Println("res.Choices len == 0")
 		return "something happened, try again later"
 	}
 
