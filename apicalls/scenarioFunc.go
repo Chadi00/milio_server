@@ -1,5 +1,7 @@
 package apicalls
 
+import "log"
+
 func SoftwareCall(message string) string {
 	req := SoftwarePrompt + message
 	output := "I can't help you with that, sorry!"
@@ -123,7 +125,20 @@ func DomoCall(message string) string {
 }
 
 func SearchCall(message string) string {
-	return "Search"
+	message = SearchPrompt + message
+
+	res, err := CallOpenAIAPI(message, 50)
+	if err != nil {
+		return "something happened, try again later"
+	}
+
+	if len(res.Choices) == 0 {
+		log.Println("res.Choices len == 0")
+		return "something happened, try again later"
+	}
+
+	answer := res.Choices[0].Message.Content
+	return "3-" + answer
 }
 
 func LogicCall(message string) string {
