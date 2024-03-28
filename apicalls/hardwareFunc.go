@@ -14,7 +14,7 @@ func volumeUp(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "100"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)
@@ -33,7 +33,7 @@ func volumeDown(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "100"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)

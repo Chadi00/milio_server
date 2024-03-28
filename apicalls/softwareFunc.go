@@ -17,7 +17,7 @@ func openApp(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "000"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)
@@ -36,7 +36,7 @@ func closeApp(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "000"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)
@@ -55,7 +55,7 @@ func openFile(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "000"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)
@@ -74,7 +74,7 @@ func closeFile(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "000"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)
@@ -93,7 +93,7 @@ func createFile(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "000"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)
@@ -112,7 +112,7 @@ func renameFile(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "000"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)
@@ -131,7 +131,7 @@ func deleteFile(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "000"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)
@@ -150,7 +150,7 @@ func createFolder(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "000"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)
@@ -169,7 +169,7 @@ func renameFolder(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "000"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)
@@ -188,7 +188,7 @@ func deleteFolder(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "000"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)
@@ -211,7 +211,7 @@ func playMusic(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "000"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)
@@ -234,7 +234,7 @@ func OpenURL(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "000"
 	}
 
 	return "014" + answer[0]
@@ -286,7 +286,7 @@ func setTimer(message string) string {
 	if res.Choices != nil && len(res.Choices) > 0 {
 		answer = strings.SplitN(res.Choices[0].Message.Content, "\n", 2)
 	} else {
-		return "0"
+		return "000"
 	}
 
 	answer = strings.SplitN(answer[0], ".", 2)

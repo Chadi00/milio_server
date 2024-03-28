@@ -115,6 +115,8 @@ func HardwareCall(message string) string {
 		return "106"
 	case "07":
 		return "107"
+	case "00":
+		return "100"
 	}
 
 	return output + " " + answer
@@ -138,7 +140,7 @@ func SearchCall(message string) string {
 	}
 
 	answer := res.Choices[0].Message.Content
-	return "3-" + answer
+	return "3" + answer
 }
 
 func LogicCall(message string) string {
