@@ -129,7 +129,7 @@ func DomoCall(message string) string {
 func SearchCall(message string) string {
 	message = SearchPrompt + message
 
-	res, err := CallOpenAIAPI(message, 50)
+	res, err := CallOpenAIAPI(message, 100)
 	if err != nil {
 		return "something happened, try again later"
 	}
@@ -140,17 +140,53 @@ func SearchCall(message string) string {
 	}
 
 	answer := res.Choices[0].Message.Content
-	return "3" + answer
+	return "4" + answer
 }
 
 func LogicCall(message string) string {
-	return "Logic"
+
+	res, err := CallOpenAIAPI(message, 2000)
+	if err != nil {
+		return "something happened, try again later"
+	}
+
+	if len(res.Choices) == 0 {
+		log.Println("res.Choices len == 0")
+		return "something happened, try again later"
+	}
+
+	answer := res.Choices[0].Message.Content
+	return "5" + answer
 }
 
 func CreativeCall(message string) string {
-	return "Creative"
+	res, err := CallOpenAIAPI(message, 2000)
+	if err != nil {
+		return "something happened, try again later"
+	}
+
+	if len(res.Choices) == 0 {
+		log.Println("res.Choices len == 0")
+		return "something happened, try again later"
+	}
+
+	answer := res.Choices[0].Message.Content
+	return "6" + answer
 }
 
 func CsCall(message string) string {
-	return "Computer science"
+	message = CSPrompt + message
+
+	res, err := CallOpenAIAPI(message, 2000)
+	if err != nil {
+		return "something happened, try again later"
+	}
+
+	if len(res.Choices) == 0 {
+		log.Println("res.Choices len == 0")
+		return "something happened, try again later"
+	}
+
+	answer := res.Choices[0].Message.Content
+	return "7" + answer
 }
