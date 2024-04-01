@@ -258,7 +258,7 @@ func sendEmail(message string) string {
 }
 
 func readPDF(message string) string {
-	message = "Read the user's request carefully, where they seek assistance with a PDF. Answer to their request regarding the content of the PDF (explaining the content, summurizing the content, giving more insight on the PDF content). Ensure that your response includes only the answer to the request or '0'. The response '0' should be given if the user's request lacks sufficient details or explanation for you to confidently answer it. It is essential to provide a singular, accurate response based on the user's initial request alone. Do not attempt to offer multiple solutions, additional explanations, or ask for further clarification. Your answer must either be the precise folder name and new name in the requested format or '0', directly addressing what the user has asked for. \n" + message
+	message = "Read the user's request carefully, where they seek assistance with a PDF. Answer to their request regarding the content of the PDF (explaining the content, summurizing the content, giving more insight on the PDF content). Ensure that your response includes only the answer to the request or '0'. The response '0' should be given if the user's request lacks sufficient details or explanation for you to confidently answer it. It is essential to provide a singular, accurate response based on the user's initial request alone. Do not attempt to offer multiple solutions, additional explanations, or ask for further clarification. \n" + message
 
 	res, err := CallOpenAIAPI(message, 1000)
 	if err != nil {
