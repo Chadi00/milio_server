@@ -20,7 +20,7 @@ func generalCall(context *gin.Context) {
 
 	message := apicalls.GeneralPrompt + userChat.Message
 
-	res, err := apicalls.CallOpenAIAPI(message, 5)
+	res, err := apicalls.LLM_API(message, 5, 0.2)
 	if err != nil {
 		context.JSON(http.StatusOK, gin.H{"message": "Can't get response from mistral"})
 	}

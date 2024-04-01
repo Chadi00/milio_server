@@ -6,7 +6,7 @@ func SoftwareCall(message string) string {
 	req := SoftwarePrompt + message
 	output := "I can't help you with that, sorry!"
 
-	res, err := CallOpenAIAPI(req, 5)
+	res, err := LLM_API(req, 5, 0.2)
 	if err != nil {
 		output = "I can't help you with that now, please try later."
 	}
@@ -84,7 +84,7 @@ func HardwareCall(message string) string {
 	req := HardwarePrompt + message
 	output := "I can't help you with that, sorry!"
 
-	res, err := CallOpenAIAPI(req, 5)
+	res, err := LLM_API(req, 5, 0.2)
 	if err != nil {
 		output = "I can't help you with that now, please try later."
 	}
@@ -129,7 +129,7 @@ func DomoCall(message string) string {
 func SearchCall(message string) string {
 	message = SearchPrompt + message
 
-	res, err := CallOpenAIAPI(message, 100)
+	res, err := LLM_API(message, 100, 0.2)
 	if err != nil {
 		return "something happened, try again later"
 	}
@@ -145,7 +145,7 @@ func SearchCall(message string) string {
 
 func LogicCall(message string) string {
 
-	res, err := CallOpenAIAPI(message, 2000)
+	res, err := LLM_API(message, 200, 0.2)
 	if err != nil {
 		return "something happened, try again later"
 	}
@@ -160,7 +160,7 @@ func LogicCall(message string) string {
 }
 
 func CreativeCall(message string) string {
-	res, err := CallOpenAIAPI(message, 2000)
+	res, err := LLM_API(message, 2000, 0.7)
 	if err != nil {
 		return "something happened, try again later"
 	}
@@ -177,7 +177,7 @@ func CreativeCall(message string) string {
 func CsCall(message string) string {
 	message = CSPrompt + message
 
-	res, err := CallOpenAIAPI(message, 2000)
+	res, err := LLM_API(message, 2000, 0.2)
 	if err != nil {
 		return "something happened, try again later"
 	}

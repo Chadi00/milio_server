@@ -13,7 +13,15 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func CallMistralAPI(message string, maxToken int) (*models.SystemChat, error) {
+func LLM_API(message string, maxToken int, temperature float64) (*models.SystemChat, error) {
+	res, err := CallOpenAIAPI(message, maxToken, temperature)
+	if err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
+func CallMistralAPI(message string, maxToken int, temperature float64) (*models.SystemChat, error) {
 
 	err := godotenv.Load()
 	if err != nil {
@@ -35,7 +43,7 @@ func CallMistralAPI(message string, maxToken int) (*models.SystemChat, error) {
 				"content": message,
 			},
 		},
-		"temperature": 0.2,
+		"temperature": temperature,
 		"top_p":       1,
 		"max_tokens":  maxToken,
 		"stream":      false,
@@ -79,7 +87,7 @@ func CallMistralAPI(message string, maxToken int) (*models.SystemChat, error) {
 	return &chat, nil
 }
 
-func CallOpenAIAPI(message string, maxToken int) (*models.SystemChat, error) {
+func CallOpenAIAPI(message string, maxToken int, temperature float64) (*models.SystemChat, error) {
 
 	err := godotenv.Load()
 	if err != nil {
@@ -101,7 +109,7 @@ func CallOpenAIAPI(message string, maxToken int) (*models.SystemChat, error) {
 				"content": message,
 			},
 		},
-		"temperature": 0.2,
+		"temperature": temperature,
 		"max_tokens":  maxToken,
 	}
 

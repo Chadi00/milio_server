@@ -11,7 +11,7 @@ import (
 func test(context *gin.Context) {
 	message := "Hello! tell me a joke please."
 
-	res, err := apicalls.CallMistralAPI(message, 5)
+	res, err := apicalls.LLM_API(message, 5, 0.2)
 	if err != nil {
 		context.JSON(http.StatusOK, gin.H{"message": "Can't get response from mistral"})
 		return
