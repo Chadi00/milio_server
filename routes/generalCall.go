@@ -22,7 +22,7 @@ func generalCall(context *gin.Context) {
 
 	res, err := apicalls.LLM_API(message, 5, 0.2)
 	if err != nil {
-		context.JSON(http.StatusOK, gin.H{"message": "Can't get response from mistral"})
+		context.JSON(http.StatusOK, gin.H{"message": "B"}) //error because of LLM api (certainly because of API limit)
 	}
 
 	answer := "0"
@@ -30,7 +30,7 @@ func generalCall(context *gin.Context) {
 		answer = res.Choices[0].Message.Content
 	} else {
 		db.AddError(userChat.Message, answer, "API_limit", "MacOS")
-		context.JSON(http.StatusInternalServerError, gin.H{"sorry, try again later.": res})
+		context.JSON(http.StatusOK, gin.H{"System message": "B"}) //error because can't add to table error
 		return
 	}
 
@@ -73,5 +73,5 @@ func generalCall(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusBadRequest, gin.H{"System messages": answer})
+	context.JSON(http.StatusOK, gin.H{"System message": "A"})
 }
