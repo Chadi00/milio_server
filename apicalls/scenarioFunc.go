@@ -1,6 +1,8 @@
 package apicalls
 
-import "log"
+import (
+	"log"
+)
 
 func SoftwareCall(message string) string {
 	req := SoftwarePrompt + message
@@ -160,7 +162,7 @@ func LogicCall(message string) string {
 }
 
 func CreativeCall(message string) string {
-	res, err := LLM_API(message, 2000, 0.7)
+	res, err := LLM_API(message, 2000, 0.9)
 	if err != nil {
 		return "something happened, try again later"
 	}
@@ -189,4 +191,21 @@ func CsCall(message string) string {
 
 	answer := res.Choices[0].Message.Content
 	return "7" + answer
+}
+
+func Discussion(message string) string {
+	message = DiscussionPrompt + message
+
+	res, err := LLM_API(message, 200, 0.5)
+	if err != nil {
+		return "something happened, try again later"
+	}
+
+	if len(res.Choices) == 0 {
+		log.Println("res.Choices len == 0")
+		return "something happened, try again later"
+	}
+
+	answer := res.Choices[0].Message.Content
+	return "8" + answer
 }

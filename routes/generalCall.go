@@ -67,6 +67,10 @@ func generalCall(context *gin.Context) {
 		output := apicalls.SoftwareCall(userChat.Message)
 		context.JSON(http.StatusOK, gin.H{"System message": output})
 		return
+	case '9':
+		output := apicalls.Discussion(userChat.Message)
+		context.JSON(http.StatusOK, gin.H{"System message": output})
+		return
 	}
 
 	context.JSON(http.StatusBadRequest, gin.H{"System messages": answer})
