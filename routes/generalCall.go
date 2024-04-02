@@ -30,7 +30,7 @@ func generalCall(context *gin.Context) {
 		answer = res.Choices[0].Message.Content
 	} else {
 		db.AddError(userChat.Message, answer, "API_limit", "MacOS")
-		context.JSON(http.StatusOK, gin.H{"System message": "B"}) //error because can't add to table error
+		context.JSON(http.StatusOK, gin.H{"System message": "B"}) //error : no valid response from LLM API - probabily because of API limit
 		return
 	}
 
