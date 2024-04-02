@@ -199,7 +199,6 @@ func CsCall(message string) string {
 }
 
 func Discussion(message string) string {
-	message = MarkdownPrompt + "\n User request : " + message
 
 	message = DiscussionPrompt + message
 
