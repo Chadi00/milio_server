@@ -57,7 +57,7 @@ func SoftwareCall(message string) string {
 		output := takeScreenshot()
 		return output
 	case "12":
-		output := playMusic(message)
+		output := playMusicInPlaylist(message)
 		return output
 	case "13":
 		output := PauseMusic()
