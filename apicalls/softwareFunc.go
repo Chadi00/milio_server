@@ -44,7 +44,7 @@ func closeApp(message string) string {
 }
 
 func openFile(message string) string {
-	message = "Read the user's request below, which asks for assistance with opening a file. Your task is to identify the name of the file and its type (e.g., txt, mp4, csv) based solely on the provided input. Respond with the name of the file and its type, separated by a pipe, like 'filename|txt' or 'videoname|mp4'. If the request does not contain enough information to confidently determine both the name of the file and its type, respond with '0'. It is crucial that you provide a single response based on the user's current request, without offering additional examples, further explanations, or multiple attempts. Your response must consist of only the file name and type in the specified format or '0', directly addressing the user's request. \n User request" + message
+	message = "Read the user's request below, which asks for assistance with opening a file. Your task is to identify the name of the file and its type (e.g., txt, mp4, csv) based solely on the provided input. Respond with the name of the file and its type, separated by a pipe, like 'filename|txt' or 'videoname|mp4'. If the request does not contain enough information to confidently determine both the name of the file and its type, respond with '0'. It is crucial that you provide a single response based on the user's current request, without offering additional examples, further explanations, or multiple attempts. It is absolutely crucial that your response format is 'fileName|fileType' or '0', nothing else. \n User request" + message
 
 	res, err := LLM_API(message, 10, 0.2)
 	if err != nil {
