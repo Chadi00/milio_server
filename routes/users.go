@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -55,6 +56,29 @@ func signup(c *gin.Context) {
 	}
 
 	c.Status(http.StatusCreated)
+}
+
+func VerifyTokenHandler(c *gin.Context) {
+	authHeader := c.GetHeader("Authorization")
+	if authHeader == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Authorization header is required", "valid": false})
+		return
+	}
+
+	tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+
+	claims := &Claims{}
+
+	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+
+	if err != nil || !token.Valid {
+		c.JSON(http.StatusOK, gin.H{"error": "Invalid or expired token", "valid": false})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"valid": true})
 }
 
 func login(c *gin.Context) {

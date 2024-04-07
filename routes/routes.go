@@ -8,6 +8,8 @@ func GenerateRoutes(server *gin.Engine) {
 	server.GET("/test", test)
 	server.GET("/test2", test2)
 
+	server.GET("/verify-token", VerifyTokenHandler)
+
 	server.POST("/user/signup", signup)
 	server.POST("/user/login", login)
 
