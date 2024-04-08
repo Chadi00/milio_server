@@ -120,11 +120,19 @@ func login(c *gin.Context) {
 
 func deleteUser(c *gin.Context) {
 
-	tokenString := c.GetHeader("Authorization")
-	if tokenString == "" {
+	authorizationHeader := c.GetHeader("Authorization")
+	if authorizationHeader == "" {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Authorization header is required"})
 		return
 	}
+
+	splitToken := strings.Split(authorizationHeader, " ")
+	if len(splitToken) != 2 || splitToken[0] != "Bearer" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid authorization format"})
+		return
+	}
+
+	tokenString := splitToken[1]
 
 	claims := &Claims{}
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
