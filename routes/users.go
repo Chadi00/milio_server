@@ -100,7 +100,7 @@ func login(c *gin.Context) {
 		return
 	}
 
-	expirationTime := time.Now().Add(1 * time.Hour)
+	expirationTime := time.Now().Add(168 * time.Hour)
 	claims := &Claims{
 		Email: user.Email,
 		RegisteredClaims: jwt.RegisteredClaims{
