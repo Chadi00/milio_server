@@ -142,7 +142,7 @@ func SearchCall(message string) string {
 	}
 
 	answer := res.Choices[0].Message.Content
-	return "4" + answer
+	return "3" + answer
 }
 
 func LogicCall(message string) string {
@@ -159,7 +159,7 @@ func LogicCall(message string) string {
 	}
 
 	answer := res.Choices[0].Message.Content
-	return "5" + answer
+	return "4" + answer
 }
 
 func CreativeCall(message string) string {
@@ -176,7 +176,7 @@ func CreativeCall(message string) string {
 	}
 
 	answer := res.Choices[0].Message.Content
-	return "6" + answer
+	return "5" + answer
 }
 
 func CsCall(message string) string {
@@ -195,7 +195,7 @@ func CsCall(message string) string {
 	}
 
 	answer := res.Choices[0].Message.Content
-	return "7" + answer
+	return "6" + answer
 }
 
 func Discussion(message string) string {
@@ -213,5 +213,5 @@ func Discussion(message string) string {
 	}
 
 	answer := res.Choices[0].Message.Content
-	return "8" + answer
+	return "7" + answer
 }
