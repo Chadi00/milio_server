@@ -147,7 +147,7 @@ func SearchCall(message string) string {
 
 func LogicCall(message string) string {
 
-	message = MarkdownPrompt + "\n User request : " + message
+	message = MarkdownPrompt + message
 	res, err := LLM_API(message, 2000, 0.2)
 	if err != nil {
 		return "something happened, try again later"
@@ -163,7 +163,7 @@ func LogicCall(message string) string {
 }
 
 func CreativeCall(message string) string {
-	message = MarkdownPrompt + "\n User request : " + message
+	message = MarkdownPrompt + message
 
 	res, err := LLM_API(message, 2000, 0.9)
 	if err != nil {
@@ -180,7 +180,7 @@ func CreativeCall(message string) string {
 }
 
 func CsCall(message string) string {
-	message = MarkdownPrompt + "\n User request : " + message
+	message = MarkdownPrompt + message
 
 	message = CSPrompt + message
 
