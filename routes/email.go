@@ -90,33 +90,26 @@ func handleCallback(c *gin.Context) {
 	originalState := session.Get("state")
 
 	if receivedState != originalState {
-		c.HTML(http.StatusUnauthorized, "error.html", gin.H{
-			"Error": "Invalid session state.",
-		})
+		c.HTML(http.StatusUnauthorized, "error.html", gin.H{"Error": "Invalid session state."})
 		return
 	}
 
 	code := c.Query("code")
 	if code == "" {
-		c.HTML(http.StatusBadRequest, "error.html", gin.H{
-			"Error": "Code not found",
-		})
+		c.HTML(http.StatusBadRequest, "error.html", gin.H{"Error": "Code not found"})
 		return
 	}
 
 	token, err := googleOauthConfig.Exchange(c, code)
 	if err != nil {
-		c.HTML(http.StatusInternalServerError, "error.html", gin.H{
-			"Error": "Failed to exchange token",
-		})
+		c.HTML(http.StatusInternalServerError, "error.html", gin.H{"Error": "Failed to exchange token"})
 		return
 	}
 
-	// Success HTML page
-	c.HTML(http.StatusOK, "success.html", gin.H{
-		"Message": "You have successfully logged in with Gmail!",
-		"Token":   token.AccessToken, // For demonstration, typically you wouldn't show the token directly
-	})
+	session.Set("oauthToken", token.AccessToken)
+	session.Save()
+
+	c.HTML(http.StatusOK, "success.html", gin.H{"Message": "You have successfully logged in with Gmail!"})
 }
 
 func generateStateOauthCookie() string {
