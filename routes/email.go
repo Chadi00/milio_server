@@ -55,6 +55,7 @@ func init() {
 		Scopes:       []string{"https://www.googleapis.com/auth/gmail.send"},
 		Endpoint:     google.Endpoint,
 	}
+	log.Println("OAuth config initialized.")
 }
 
 func handleLogin(c *gin.Context) {
@@ -70,45 +71,63 @@ func handleLogin(c *gin.Context) {
 	})
 
 	if err != nil || !token.Valid {
+		log.Printf("JWT parsing error: %v", err)
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired JWT token"})
 		return
 	}
 
-	// JWT is valid, proceed with OAuth
 	session := sessions.Default(c)
 	state := generateStateOauthCookie()
 	session.Set("state", state)
-	session.Save()
+	if err := session.Save(); err != nil {
+		log.Printf("Error saving session: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Session save error"})
+		return
+	}
 
 	url := googleOauthConfig.AuthCodeURL(state, oauth2.AccessTypeOffline)
+	log.Printf("Redirecting to: %s", url)
 	c.Redirect(http.StatusTemporaryRedirect, url)
 }
 
 func handleCallback(c *gin.Context) {
 	session := sessions.Default(c)
+	if session == nil {
+		log.Println("Session is nil")
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Session error"})
+		return
+	}
+
 	receivedState := c.Query("state")
 	originalState := session.Get("state")
-
 	if receivedState != originalState {
+		log.Println("Invalid session state")
 		c.HTML(http.StatusUnauthorized, "error.html", gin.H{"Error": "Invalid session state."})
 		return
 	}
 
 	code := c.Query("code")
 	if code == "" {
+		log.Println("Authorization code not found")
 		c.HTML(http.StatusBadRequest, "error.html", gin.H{"Error": "Code not found"})
 		return
 	}
 
 	token, err := googleOauthConfig.Exchange(c, code)
 	if err != nil {
+		log.Printf("Token exchange failed: %v", err)
 		c.HTML(http.StatusInternalServerError, "error.html", gin.H{"Error": "Failed to exchange token"})
 		return
 	}
 
 	session.Set("oauthToken", token.AccessToken)
-	session.Save()
+	if err := session.Save(); err != nil {
+		log.Printf("Error saving token to session: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Token save error"})
+		return
+	}
 
+	log.Println("Login successful, token saved.")
 	c.HTML(http.StatusOK, "success.html", gin.H{"Message": "You have successfully logged in with Gmail!"})
 }
 
