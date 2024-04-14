@@ -8,7 +8,6 @@
     <h1>Authentication Successful</h1>
     <p>You can now close this window.</p>
     <script>
-        
         const { ipcRenderer } = require('electron');
         const accessToken = "{{ .AccessToken }}";
         console.log("Access Token:", accessToken);
@@ -17,7 +16,8 @@
 
         setTimeout(() => {
             window.close();
-        }, 500);  
+        }, 1000);  
     </script>
 </body>
 </html>
+
