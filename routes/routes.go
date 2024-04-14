@@ -13,9 +13,14 @@ func GenerateRoutes(server *gin.Engine) {
 	server.POST("/user/signup", signup)
 	server.POST("/user/login", login)
 
+	server.GET("/email/handleCallback", handleCallback)
+
 	// Protected routes :
 	protected := server.Group("/")
 	protected.Use(AuthMiddleware())
 	protected.DELETE("/user/delete", deleteUser)
 	protected.POST("/chat", generalCall)
+	protected.POST("/email/send", handleSendEmail)
+	protected.GET("/email/login", handleLogin)
+
 }

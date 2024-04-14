@@ -6,10 +6,15 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/sessions/cookie"
+	"github.com/gin-contrib/sessions"
 )
 
 func main() {
 	server := gin.Default()
+
+	store := cookie.NewStore([]byte("secret"))
+	server.Use(sessions.Sessions("mysession", store))
 
 	db.AddErrorTable()
 	db.AddUsersTable()
