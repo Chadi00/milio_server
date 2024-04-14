@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/joho/godotenv"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -39,6 +40,13 @@ func init() {
 		log.Fatal("ClientSecret not set as env variable")
 	}
 
+	secretJWT := os.Getenv("JWT_SECRET")
+	if secretJWT == "" {
+		log.Fatal("JWT_SECRET not set as env variable")
+	}
+
+	jwtKey = []byte(secretJWT)
+
 	// Initialize googleOauthConfig after ClientID and ClientSecret are set
 	googleOauthConfig = &oauth2.Config{
 		RedirectURL:  "https://server.lostengineering.com/email/handleCallback",
@@ -50,12 +58,29 @@ func init() {
 }
 
 func handleLogin(c *gin.Context) {
+	jwtToken := c.Query("jwt")
+	if jwtToken == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "JWT token is required"})
+		return
+	}
+
+	claims := &jwt.RegisteredClaims{}
+	token, err := jwt.ParseWithClaims(jwtToken, claims, func(token *jwt.Token) (interface{}, error) {
+		return jwtKey, nil
+	})
+
+	if err != nil || !token.Valid {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired JWT token"})
+		return
+	}
+
+	// JWT is valid, proceed with OAuth
 	session := sessions.Default(c)
 	state := generateStateOauthCookie()
 	session.Set("state", state)
 	session.Save()
 
-	url := googleOauthConfig.AuthCodeURL(state)
+	url := googleOauthConfig.AuthCodeURL(state, oauth2.AccessTypeOffline)
 	c.Redirect(http.StatusTemporaryRedirect, url)
 }
 
