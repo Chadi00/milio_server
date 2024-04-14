@@ -121,7 +121,7 @@ func handleCallback(c *gin.Context) {
 	}
 
 	// Render a page with a script that will communicate the token to the Electron app
-	log.Println(token.AccessToken)
+	log.Println("Acess token: ", token.AccessToken)
 	c.HTML(http.StatusOK, "token.html", gin.H{"AccessToken": token.AccessToken})
 }
 
