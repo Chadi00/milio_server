@@ -13,6 +13,8 @@ import (
 func main() {
 	server := gin.Default()
 
+	server.LoadHTMLGlob("templates/*")
+
 	store := cookie.NewStore([]byte("secret"))
 	server.Use(sessions.Sessions("mysession", store))
 

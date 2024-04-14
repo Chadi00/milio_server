@@ -116,7 +116,7 @@ func handleCallback(c *gin.Context) {
 	token, err := googleOauthConfig.Exchange(c, code)
 	if err != nil {
 		log.Printf("Token exchange failed: %v", err)
-		c.HTML(http.StatusInternalServerError, "../templates/error.html", gin.H{"Error": "Failed to exchange token"})
+		c.HTML(http.StatusInternalServerError, "error.html", gin.H{"Error": "Failed to exchange token"})
 		return
 	}
 
@@ -128,7 +128,7 @@ func handleCallback(c *gin.Context) {
 	}
 
 	log.Println("Login successful, token saved.")
-	c.HTML(http.StatusOK, "../templates/success.html", gin.H{"Message": "You have successfully logged in with Gmail!"})
+	c.HTML(http.StatusOK, "success.html", gin.H{"Message": "You have successfully logged in with Gmail!"})
 }
 
 func generateStateOauthCookie() string {
