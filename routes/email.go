@@ -126,6 +126,7 @@ func handleCallback(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Token save error"})
 		return
 	}
+	log.Println(token.AccessToken)
 
 	log.Println("Login successful, token saved.")
 	c.HTML(http.StatusOK, "success.html", gin.H{"Message": "You have successfully logged in with Gmail!"})
