@@ -8,18 +8,16 @@
     <h1>Authentication Successful</h1>
     <p>You can now close this window.</p>
     <script>
-        // Directly access ipcRenderer since nodeIntegration is true
+        
         const { ipcRenderer } = require('electron');
         const accessToken = "{{ .AccessToken }}";
         console.log("Access Token:", accessToken);
         
-        // Send the token to the main process
         ipcRenderer.send('token-received', accessToken);
 
-        // Close the current window
         setTimeout(() => {
             window.close();
-        }, 500);  // Close the window after 500ms
+        }, 500);  
     </script>
 </body>
 </html>
