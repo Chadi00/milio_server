@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Authentication Success</title>
+</head>
+<body>
+    <h1>Authentication Successful</h1>
+    <p>You can now close this window.</p>
+    <script>
+        // Example of sending the token to the Electron app via IPC or redirecting
+        const accessToken = "{{ .AccessToken }}";
+        console.log("Access Token:", accessToken);
+        // If using Electron's IPC (ensure the renderer process is configured to handle this)
+        // window.electronAPI.sendToken(accessToken);
+
+        // Or notify the Electron app through a global function if defined
+        if (window.opener && window.opener.handleOAuthToken) {
+            window.opener.handleOAuthToken(accessToken);
+        }
+
+        // Close the current window
+        window.close();
+    </script>
+</body>
+</html>

@@ -120,16 +120,8 @@ func handleCallback(c *gin.Context) {
 		return
 	}
 
-	session.Set("oauthToken", token.AccessToken)
-	if err := session.Save(); err != nil {
-		log.Printf("Error saving token to session: %v", err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Token save error"})
-		return
-	}
-	log.Println(token.AccessToken)
-
-	log.Println("Login successful, token saved.")
-	c.HTML(http.StatusOK, "success.html", gin.H{"Access Token": token.AccessToken})
+	// Render a page with a script that will communicate the token to the Electron app
+	c.HTML(http.StatusOK, "token.html", gin.H{"AccessToken": token.AccessToken})
 }
 
 func generateStateOauthCookie() string {
