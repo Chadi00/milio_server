@@ -129,7 +129,7 @@ func handleCallback(c *gin.Context) {
 	log.Println(token.AccessToken)
 
 	log.Println("Login successful, token saved.")
-	c.HTML(http.StatusOK, "success.html", gin.H{"Message": "You have successfully logged in with Gmail!"})
+	c.HTML(http.StatusOK, "success.html", gin.H{"Access Token": token.AccessToken})
 }
 
 func generateStateOauthCookie() string {
