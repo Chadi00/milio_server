@@ -196,12 +196,14 @@ func getEmailAddress(c *gin.Context) {
 
 	srv, err := gmail.NewService(c, option.WithHTTPClient(client))
 	if err != nil {
+		log.Print("Failed to create gmail service")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create Gmail service"})
 		return
 	}
 
 	userProfile, err := srv.Users.GetProfile("me").Do()
 	if err != nil {
+		log.Print("Failed to retrieve user profile")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve user profile"})
 		return
 	}
