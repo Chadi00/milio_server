@@ -135,33 +135,27 @@ func generateStateOauthCookie() string {
 }
 
 func handleSendEmail(c *gin.Context) {
-	token := c.GetHeader("Authorization")
-	if token == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "No authorization token provided"})
-		return
-	}
-
-	// Validate the token
-	if !validateToken(token) {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid or expired token"})
-		return
-	}
-
 	var requestData struct {
+		AccessToken    string `json:"accessToken"`
 		RecipientEmail string `json:"recipientEmail"`
 		Subject        string `json:"subject"`
 		Content        string `json:"content"`
 	}
+
 	if err := c.BindJSON(&requestData); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request data"})
 		return
 	}
 
+	// Set up OAuth2 token using the provided access token
 	oauthToken := &oauth2.Token{
-		AccessToken: token,
+		AccessToken: requestData.AccessToken,
 	}
 
+	// Create a new HTTP client using the OAuth2 token
 	client := googleOauthConfig.Client(c, oauthToken)
+
+	// Create a new Gmail service using the authorized client
 	srv, err := gmail.NewService(c, option.WithHTTPClient(client))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create Gmail service"})
