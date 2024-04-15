@@ -21,6 +21,7 @@ func GenerateRoutes(server *gin.Engine) {
 	protected.Use(AuthMiddleware())
 	protected.DELETE("/user/delete", deleteUser)
 	protected.POST("/chat", generalCall)
+	protected.GET("/email/get-email", getEmailAddress)
 	protected.POST("/email/send", handleSendEmail)
 
 }

@@ -3,11 +3,9 @@ package routes
 import (
 	"crypto/rand"
 	"encoding/base64"
-	"encoding/json"
 	"log"
 	"net/http"
 	"os"
-	"strings"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -180,21 +178,33 @@ func handleSendEmail(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Email sent successfully"})
 }
 
-func validateToken(accessToken string) bool {
-	req, _ := http.NewRequest("GET", "https://www.googleapis.com/oauth2/v3/tokeninfo?access_token="+accessToken, nil)
-	client := &http.Client{}
-	resp, err := client.Do(req)
+func getEmailAddress(c *gin.Context) {
+	var requestData struct {
+		AccessToken string `json:"accessToken"`
+	}
+
+	if err := c.BindJSON(&requestData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request data"})
+		return
+	}
+
+	oauthToken := &oauth2.Token{
+		AccessToken: requestData.AccessToken,
+	}
+
+	client := googleOauthConfig.Client(c, oauthToken)
+
+	srv, err := gmail.NewService(c, option.WithHTTPClient(client))
 	if err != nil {
-		return false
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create Gmail service"})
+		return
 	}
-	defer resp.Body.Close()
 
-	var data struct {
-		ErrorDescription string `json:"error_description"`
-		ExpiresIn        string `json:"expires_in"`
-		Scope            string `json:"scope"`
+	userProfile, err := srv.Users.GetProfile("me").Do()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve user profile"})
+		return
 	}
-	json.NewDecoder(resp.Body).Decode(&data)
 
-	return data.ErrorDescription == "" && strings.Contains(data.Scope, "https://www.googleapis.com/auth/gmail.send")
+	c.JSON(http.StatusOK, gin.H{"emailAddress": userProfile.EmailAddress})
 }
