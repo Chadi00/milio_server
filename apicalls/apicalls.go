@@ -328,3 +328,65 @@ func CallAnthropicAPIStreaming(ctx *gin.Context, message string, maxTokens int, 
 	// Handle the streaming response
 	return streamHandler(ctx, resp)
 }
+
+func CallGroqAPI(message string, maxToken int, temperature float64) (*models.SystemChat, error) {
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Warning: No .env file found")
+	}
+	apiKey := os.Getenv("GROQ_API_KEY")
+	if apiKey == "" {
+		log.Fatal("API key for GROQ not set as env variable")
+	}
+
+	url := "https://api.groq.com/openai/v1/chat/completions"
+
+	// Construct the request body
+	requestBody := map[string]interface{}{
+		"model": "llama3-70b-8192",
+		"messages": []map[string]string{
+			{
+				"role":    "user",
+				"content": message,
+			},
+		},
+		"temperature": temperature,
+		"max_tokens":  maxToken,
+	}
+
+	jsonData, err := json.Marshal(requestBody)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Authorization", "Bearer "+apiKey)
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	// Read the response body
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var chat models.SystemChat
+	err = json.Unmarshal(body, &chat)
+	if err != nil {
+		return nil, err
+	}
+
+	return &chat, nil
+}

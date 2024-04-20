@@ -25,7 +25,9 @@ func chatStream(context *gin.Context) {
 
 	log.Printf("Received message: '%s'", chat.Message)
 
-	if err := apicalls.CallAnthropicAPIStreaming(context, chat.Message, 1000, 0.5); err != nil {
+	res, err := apicalls.CallGroqAPI(chat.Message, 8000, 0.7)
+	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to process message"})
 	}
+	context.JSON(http.StatusOK, gin.H{"Response": res.Choices[0].Message.Content})
 }
