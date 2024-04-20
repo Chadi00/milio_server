@@ -3,10 +3,10 @@ package models
 import "time"
 
 type UserChat struct {
-	ID      string
-	UserID  string
-	Message string
-	Date    time.Time
+	ID      string    `json:"id"`
+	UserID  string    `json:"user_id"`
+	Message string    `json:"message"`
+	Date    time.Time `json:"date"`
 }
 
 type SystemChat struct {

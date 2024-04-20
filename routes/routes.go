@@ -4,10 +4,6 @@ import "github.com/gin-gonic/gin"
 
 func GenerateRoutes(server *gin.Engine) {
 	// Public routes :
-	server.GET("/hello", hello)
-	server.GET("/test", test)
-	server.GET("/test2", test2)
-
 	server.GET("/verify-token", VerifyTokenHandler)
 
 	server.POST("/user/signup", signup)
@@ -15,6 +11,7 @@ func GenerateRoutes(server *gin.Engine) {
 
 	server.GET("/email/login", handleLogin)
 	server.GET("/email/handleCallback", handleCallback)
+	server.POST("/chat/stream", chatStream)
 
 	// Protected routes :
 	protected := server.Group("/")
