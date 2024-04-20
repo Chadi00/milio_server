@@ -131,7 +131,7 @@ func DomoCall(message string) string {
 func SearchCall(message string) string {
 	message = SearchPrompt + message
 
-	res, err := LLM_API(message, 100, 0.2)
+	res, err := LLM_API(message, 1000, 0.2)
 	if err != nil {
 		return "something happened, try again later"
 	}
@@ -147,7 +147,7 @@ func SearchCall(message string) string {
 
 func LogicCall(message string) string {
 
-	res, err := CallGroqAPI(message, 100, 0.2)
+	res, err := CallGroqAPI(message, 2000, 0.2)
 	if err != nil {
 		return "something happened, try again later"
 	}
@@ -162,7 +162,7 @@ func LogicCall(message string) string {
 }
 
 func CreativeCall(message string) string {
-	res, err := CallGroqAPI(message, 100, 0.2)
+	res, err := CallGroqAPI(message, 2000, 0.2)
 	if err != nil {
 		return "something happened, try again later"
 	}
@@ -179,7 +179,7 @@ func CreativeCall(message string) string {
 func CsCall(message string) string {
 	message = CSPrompt + message
 
-	res, err := CallGroqAPI(message, 100, 0.2)
+	res, err := CallGroqAPI(message, 2000, 0.2)
 	if err != nil {
 		return "something happened, try again later"
 	}
@@ -196,7 +196,7 @@ func CsCall(message string) string {
 func Discussion(message string) string {
 	message = DiscussionPrompt + message
 
-	res, err := CallGroqAPI(message, 100, 0.2)
+	res, err := CallGroqAPI(message, 2000, 0.2)
 	if err != nil {
 		return "something happened, try again later"
 	}
