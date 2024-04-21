@@ -20,7 +20,7 @@ func generalCall(context *gin.Context) {
 
 	message := apicalls.GeneralPrompt + userChat.Message
 
-	res, err := apicalls.LLM_API(message, 5, 0.2)
+	res, err := apicalls.LLM_API(message, 10, 0.2)
 	if err != nil {
 		context.JSON(http.StatusOK, gin.H{"message": "B"}) //error because of LLM api (certainly because of API limit)
 	}

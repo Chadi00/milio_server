@@ -2,6 +2,27 @@ package models
 
 import "time"
 
+type ClaudeAPI struct {
+	ID           string        `json:"id"`
+	Type         string        `json:"type"`
+	Role         string        `json:"role"`
+	Model        string        `json:"model"`
+	StopSequence *string       `json:"stop_sequence"`
+	Usage        UsageClaude   `json:"usage"`
+	Content      []ContentItem `json:"content"`
+	StopReason   string        `json:"stop_reason"`
+}
+
+type UsageClaude struct {
+	InputTokens  int `json:"input_tokens"`
+	OutputTokens int `json:"output_tokens"`
+}
+
+type ContentItem struct {
+	Type string `json:"type"`
+	Text string `json:"text"`
+}
+
 type UserChat struct {
 	ID      string    `json:"id"`
 	UserID  string    `json:"user_id"`

@@ -16,7 +16,7 @@ import (
 )
 
 func LLM_API(message string, maxToken int, temperature float64) (*models.SystemChat, error) {
-	res, err := CallGroqAPI(message, maxToken, temperature)
+	res, err := CallAnthropicAPI(message, maxToken, temperature)
 	if err != nil {
 		return nil, err
 	}
@@ -152,7 +152,6 @@ func CallOpenAIAPI(message string, maxToken int, temperature float64) (*models.S
 }
 
 func CallAnthropicAPI(message string, maxTokens int, temperature float64) (*models.SystemChat, error) {
-
 	err := godotenv.Load()
 	if err != nil {
 		log.Println("Warning: No .env file found")
@@ -205,13 +204,27 @@ func CallAnthropicAPI(message string, maxTokens int, temperature float64) (*mode
 		return nil, err
 	}
 
-	var chat models.SystemChat
-	err = json.Unmarshal(body, &chat)
+	var response models.ClaudeAPI
+	err = json.Unmarshal(body, &response)
 	if err != nil {
 		return nil, err
 	}
+	systemChat := &models.SystemChat{
+		ID:     response.ID,
+		Object: response.Type,
+		Model:  response.Model,
+		Choices: []models.Choice{
+			{
+				Message: models.Message{
+					Role:    response.Role,
+					Content: response.Content[0].Text,
+				},
+				FinishReason: response.StopReason,
+			},
+		},
+	}
 
-	return &chat, nil
+	return systemChat, nil
 }
 
 func streamHandler(ctx *gin.Context, resp *http.Response) error {
