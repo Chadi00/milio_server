@@ -27,7 +27,7 @@ Any issues encountered during the handling of requests are logged into an SQLite
 ## Tech Stack
 - Gin framework for the performance and efficiency in building scalable web servers with Go.
 - LLM APIs to understand the user request (OpenAI, Anthropic, Mistral, Groq APIs). Using accurate prompt to transform user request into an action code to make the user request more deterministic.
-- SQLite Database hosted Turso to get a lightweight and reliable storage solution for user data and error logs. Using the db to essantially store errors to improve prompts in the future.
+- SQLite Database hosted on Turso to get a lightweight and reliable storage solution for user data and error logs. Using the db to essantially store errors to improve prompts in the future.
 - Gmail OAuth to connect users to their gmail account to send emails on their behalf.
 
 ## Workflow with Client Application
