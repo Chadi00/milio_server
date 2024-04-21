@@ -1,8 +1,22 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"golang.org/x/time/rate"
+)
 
 func GenerateRoutes(server *gin.Engine) {
+
+	v := &VisitorData{
+		visitors: make(map[string]*rate.Limiter),
+	}
+
+	server.Use(RateLimitMiddleware(v)) //middleware for rate limits (2 per sec)
+
+	server.GET("/test", test) //route to test api
+
 	// Public routes :
 	server.GET("/verify-token", VerifyTokenHandler)
 
@@ -21,4 +35,8 @@ func GenerateRoutes(server *gin.Engine) {
 	protected.POST("/email/get-email", getEmailAddress)
 	protected.POST("/email/send", handleSendEmail)
 
+}
+
+func test(ctx *gin.Context) {
+	ctx.JSON(http.StatusOK, gin.H{"Message": "OK"})
 }
