@@ -23,9 +23,7 @@ func chatStream(context *gin.Context) {
 		return
 	}
 
-	log.Printf("Received message: '%s'", chat.Message)
-
-	if err := apicalls.CallAnthropicAPIStreaming(context, chat.Message, 1000, 0.5); err != nil {
+	if err := apicalls.CallAnthropicAPIStreaming(context, chat.Message, 2000, 0.5); err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to process message"})
 	}
 }

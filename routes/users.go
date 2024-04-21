@@ -19,9 +19,7 @@ import (
 var jwtKey []byte
 
 func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Println("Warning: No .env file found")
-	}
+	_ = godotenv.Load()
 
 	secretJWT := os.Getenv("JWT_SECRET")
 	if secretJWT == "" {

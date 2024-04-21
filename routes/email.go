@@ -24,9 +24,7 @@ var (
 )
 
 func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Println("Warning: No .env file found")
-	}
+	_ = godotenv.Load()
 
 	ClientID = os.Getenv("ClientID")
 	if ClientID == "" {
@@ -45,7 +43,7 @@ func init() {
 
 	jwtKey = []byte(secretJWT)
 
-	// Initialize googleOauthConfig after ClientID and ClientSecret are set
+	// initialize googleOauthConfig after ClientID and ClientSecret are set
 	googleOauthConfig = &oauth2.Config{
 		RedirectURL:  "https://server.lostengineering.com/email/handleCallback",
 		ClientID:     ClientID,
@@ -90,11 +88,6 @@ func handleLogin(c *gin.Context) {
 
 func handleCallback(c *gin.Context) {
 	session := sessions.Default(c)
-	if session == nil {
-		log.Println("Session is nil")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Session error"})
-		return
-	}
 
 	receivedState := c.Query("state")
 	originalState := session.Get("state")
@@ -118,8 +111,7 @@ func handleCallback(c *gin.Context) {
 		return
 	}
 
-	// Render a page with a script that will communicate the token to the Electron app
-	log.Println("Access token:", token.AccessToken)
+	// render token.html with a script that will give the token to the client (electron app)
 	c.HTML(http.StatusOK, "token.html", gin.H{"AccessToken": token.AccessToken})
 }
 
@@ -145,22 +137,20 @@ func handleSendEmail(c *gin.Context) {
 		return
 	}
 
-	// Set up OAuth2 token using the provided access token
+	// set up OAuth token using the provided access token and create a new HTTP client using the OAuth token
 	oauthToken := &oauth2.Token{
 		AccessToken: requestData.AccessToken,
 	}
-
-	// Create a new HTTP client using the OAuth2 token
 	client := googleOauthConfig.Client(c, oauthToken)
 
-	// Create a new Gmail service using the authorized client
+	// create a new Gmail service using the authorized client
 	srv, err := gmail.NewService(c, option.WithHTTPClient(client))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create Gmail service"})
 		return
 	}
 
-	// Create the email message
+	// create the email message
 	var message gmail.Message
 	emailTo := "To: " + requestData.RecipientEmail + "\r\n"
 	subject := "Subject: " + requestData.Subject + "\r\n"
@@ -168,7 +158,7 @@ func handleSendEmail(c *gin.Context) {
 	msgStr := []byte(emailTo + subject + mime + "\n" + requestData.Content)
 	message.Raw = base64.URLEncoding.EncodeToString(msgStr)
 
-	// Send the email
+	// send the email
 	_, err = srv.Users.Messages.Send("me", &message).Do()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to send email"})

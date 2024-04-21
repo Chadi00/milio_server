@@ -10,9 +10,7 @@ import (
 )
 
 func ConnectDb() (*sql.DB, error) {
-	if err := godotenv.Load(); err != nil {
-		log.Println("Warning: No .env file found")
-	}
+	_ = godotenv.Load()
 
 	tursoUrl := os.Getenv("TURSO_SQL_URL")
 	if tursoUrl == "" {

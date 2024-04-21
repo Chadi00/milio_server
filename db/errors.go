@@ -36,8 +36,6 @@ func AddErrorTable() {
 
 	if _, err := db.Exec(createErrorTableSQL); err != nil {
 		log.Fatalf("Failed to create error table: %v", err)
-	} else {
-		fmt.Println("Error table created successfully")
 	}
 }
 
@@ -56,8 +54,6 @@ func AddError(userChat, systemChat, typeError, device string) {
 	_, err = db.Exec(insertErrorSQL, userChat, systemChat, time.Now(), typeError, device)
 	if err != nil {
 		log.Fatalf("Failed to insert error: %v", err)
-	} else {
-		fmt.Println("Error inserted successfully")
 	}
 }
 
@@ -85,10 +81,10 @@ func ReadAllErrorsAsString() (string, error) {
 			return "", fmt.Errorf("failed to scan error row: %v", err)
 		}
 
-		// Parse the createdAtStr with timezone offset
+		// parse the createdAtStr with timezone offset
 		createdAt, err := time.Parse("2006-01-02 15:04:05.999999-07:00", createdAtStr)
 		if err != nil {
-			// If parsing fails, try without the timezone offset
+			// if parsing fails, try without the timezone offset
 			createdAt, err = time.Parse("2006-01-02 15:04:05", createdAtStr)
 			if err != nil {
 				return "", fmt.Errorf("failed to parse created_at datetime: %v", err)
@@ -118,7 +114,5 @@ func DeleteErrorsTable() {
 
 	if _, err := db.Exec(dropTableSQL); err != nil {
 		log.Fatalf("Failed to delete errors table: %v", err)
-	} else {
-		log.Println("Errors table deleted successfully")
 	}
 }

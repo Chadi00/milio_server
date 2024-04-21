@@ -2,7 +2,6 @@ package db
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"milio/models"
 	"time"
@@ -26,8 +25,6 @@ func AddUsersTable() {
 
 	if _, err := db.Exec(createUsersTableSQL); err != nil {
 		log.Fatalf("Failed to create users table: %v", err)
-	} else {
-		fmt.Println("Users table created successfully")
 	}
 }
 
@@ -54,7 +51,7 @@ func AddUser(email, password string) error {
 		return err
 	}
 
-	fmt.Println("Added user successfully")
+	//fmt.Println("Added user successfully")
 	return nil
 }
 
@@ -97,7 +94,6 @@ func DeleteUserByEmail(email string) error {
 	}
 	defer db.Close()
 
-	// Prepare the delete statement
 	deleteQuery := `DELETE FROM users WHERE email = ?`
 	stmt, err := db.Prepare(deleteQuery)
 	if err != nil {
@@ -106,7 +102,6 @@ func DeleteUserByEmail(email string) error {
 	}
 	defer stmt.Close()
 
-	// Execute the delete statement
 	_, err = stmt.Exec(email)
 	if err != nil {
 		log.Printf("Failed to delete user by email: %v", err)
@@ -127,7 +122,5 @@ func DeleteUsersTable() {
 
 	if _, err := db.Exec(dropTableSQL); err != nil {
 		log.Fatalf("Failed to delete users table: %v", err)
-	} else {
-		log.Println("Users table deleted successfully")
 	}
 }
